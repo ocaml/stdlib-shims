@@ -59,13 +59,13 @@ let missing_modules =
   List.filter modules_post_4_02 ~f:(fun (_, v) -> version < v)
   |> List.map ~f:fst
 
-let all_modules_expect_stdlib =
+let all_modules_except_stdlib =
   (modules_in_4_02 @ List.map modules_post_4_02 ~f:fst)
   |> List.filter ~f:((<>) "Stdlib")
   |> List.sort ~cmp:String.compare
 
 let longest_module_name =
-  List.fold_left all_modules_expect_stdlib ~init:0
+  List.fold_left all_modules_except_stdlib ~init:0
     ~f:(fun acc m -> max acc (String.length m))
 
 let () =
@@ -84,6 +84,6 @@ let () =
 include Pervasives
 ")))
 |} (String.concat ~sep:" " missing_modules)
-    (List.map all_modules_expect_stdlib
+    (List.map all_modules_except_stdlib
        ~f:(fun m -> Printf.sprintf "module %-*s = %s" longest_module_name m m)
      |> String.concat ~sep:"\n")
