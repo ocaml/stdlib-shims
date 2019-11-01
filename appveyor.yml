@@ -1,0 +1,6 @@
+install:
+  - cd "%APPVEYOR_BUILD_FOLDER%"
+  - appveyor_init.cmd
+build_script:
+  - cd "%APPVEYOR_BUILD_FOLDER%"
+  - dune build @install --verbose
